@@ -9,7 +9,7 @@ root= Tk()
 personas =[]
 
 notebook = ttk.Notebook(root)
-notebook.configure(width=400, height=500)
+notebook.configure(width=550, height=400)
 
 #crearlas
 tab1 = ttk.Frame(notebook)
@@ -26,6 +26,8 @@ class datos:
         self.musica= musica
         self.videojuegos= videojuegos
         self.estado = estado
+        
+personas =[]    
 
 if not os.path.isfile("Datos.csv"):
     with open("Datos.csv", 'w') as file:
@@ -61,15 +63,58 @@ if not os.path.isfile("Datos.csv"):
     
 
 else:
-    pass
+    file= open("Datos.csv", "r")
+    line = file.readline()
+
+    line = file.readline()
+    
+    while line:
+
+        
+        DatosLeidos = line.strip().split(",") #split es para separar con el caracter indicado
+        persona = datos(DatosLeidos[0], DatosLeidos[1], DatosLeidos[2], DatosLeidos[3], DatosLeidos[4], DatosLeidos[5], DatosLeidos[6], DatosLeidos[7], DatosLeidos[8], DatosLeidos[9])
+        personas.append(persona)
+        line = file.readline()
+
+        for i, persona in enumerate(personas):
+            table = ttk.Treeview(tab2, columns=("nombre", "aPat", "aMat", "correo", "movil", "ocupacion", "leer", "musica", "videojuegos", "estado"))
+
+            table.heading("#0", text="ID")
+            table.heading("nombre", text="Nombre")
+            table.heading("aPat", text="Apellido paterno")
+            table.heading("aMat", text="Apellido materno")
+            table.heading("correo", text="Correo")
+            table.heading("movil", text="Móvil")
+            table.heading("ocupacion", text="Ocupación")
+            table.heading("leer", text="Lee")
+            table.heading("musica", text="Escucha música")
+            table.heading("videojuegos", text="Juega videojuegos")
+            table.heading("estado", text="Estado")
+
+            table.column("#0", width=50)
+            table.column("nombre", width=100)
+            table.column("aPat", width=120)
+            table.column("aMat", width=120)
+            table.column("correo", width=200)
+            table.column("movil", width=100)
+            table.column("ocupacion", width=120)
+            table.column("leer", width=100)
+            table.column("musica", width=120)
+            table.column("videojuegos", width=120)
+            table.column("estado", width=120)
+                
+                
+            table.insert(parent="", index=i, iid=i, text=i+1, values=(DatosLeidos[0], DatosLeidos[1], DatosLeidos[2], DatosLeidos[3], DatosLeidos[4], DatosLeidos[5], DatosLeidos[6], DatosLeidos[7], DatosLeidos[8], DatosLeidos[9]))
+            
+        
+    table.grid()
+    file.close()
 
 
 
 
-file= open("Datos.csv", "r")
-line = file.readline()
-line = file.readline()
-personas =[]
+
+
 
 
      
@@ -112,48 +157,6 @@ def guardar():
      
 
 
-
-while line:
-
-    
-    DatosLeidos = line.strip().split(",") #split es para separar con el caracter indicado
-    persona = datos(DatosLeidos[0], DatosLeidos[1], DatosLeidos[2], DatosLeidos[3], DatosLeidos[4], DatosLeidos[5], DatosLeidos[6], DatosLeidos[7], DatosLeidos[8], DatosLeidos[9])
-    personas.append(persona)
-    line = file.readline()
-
-    for i, persona in enumerate(personas):
-        table = ttk.Treeview(tab2, columns=("nombre", "aPat", "aMat", "correo", "movil", "ocupacion", "leer", "musica", "videojuegos", "estado"))
-
-        table.heading("#0", text="ID")
-        table.heading("nombre", text="Nombre")
-        table.heading("aPat", text="Apellido paterno")
-        table.heading("aMat", text="Apellido materno")
-        table.heading("correo", text="Correo")
-        table.heading("movil", text="Móvil")
-        table.heading("ocupacion", text="Ocupación")
-        table.heading("leer", text="Lee")
-        table.heading("musica", text="Escucha música")
-        table.heading("videojuegos", text="Juega videojuegos")
-        table.heading("estado", text="Estado")
-
-        table.column("#0", width=50)
-        table.column("nombre", width=100)
-        table.column("aPat", width=120)
-        table.column("aMat", width=120)
-        table.column("correo", width=200)
-        table.column("movil", width=100)
-        table.column("ocupacion", width=120)
-        table.column("leer", width=100)
-        table.column("musica", width=120)
-        table.column("videojuegos", width=120)
-        table.column("estado", width=120)
-            
-            
-        table.insert(parent="", index=i, iid=i, text=i+1, values=(DatosLeidos[0], DatosLeidos[1], DatosLeidos[2], DatosLeidos[3], DatosLeidos[4], DatosLeidos[5], DatosLeidos[6], DatosLeidos[7], DatosLeidos[8], DatosLeidos[9]))
-        
-    
-table.grid()
-file.close()
 
 
 style = ttk.Style()
@@ -262,7 +265,8 @@ comboEstados['values']=("Jalisco", "Nayarit", "Colima", "Michoacan")
 
 
 ttk.Button(sub5_Frame, text="Guardar", command=guardar).grid(column=0, row=0,padx=20,)
+ttk.Button(sub5_Frame, text="Base de datos", command=guardar).grid(column=2, row=0,padx=20,)
+
 ttk.Button(sub5_Frame, text="Cancelar").grid(column=1, row=0,padx=20)
 
 root.mainloop()
-
